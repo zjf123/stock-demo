@@ -25,13 +25,13 @@ import java.util.List;
  */
 @Component
 public class SpiderData {
-//    public static void main(String[] args) {
-//        SpiderData data = new SpiderData();
-//        List<StockInfo> list = data.getData();
-//        System.out.println(list);
-//    }
+    public static void main(String[] args) {
+        SpiderData data = new SpiderData();
+        List<StockInfo> list = data.getData(false);
+        System.out.println(list);
+    }
 
-    private JSONObject getDataInfo() throws Exception {
+    private JSONObject getDataInfo(boolean writeFlag) throws Exception {
         //创建一个httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -64,11 +64,13 @@ public class SpiderData {
         String string = EntityUtils.toString(entity, "utf-8");
         String json = Native2AsciiUtils.ascii2Native(string).replace("\\万", "万").replace("\\亿", "亿");
         String jsonString = json.substring(json.indexOf("var allResult =") + "var allResult =".length(), json.indexOf("\"isVertical\":false};") + "\"isVertical\":false};".length() - 1);
-        System.out.println(jsonString);
+//        System.out.println(jsonString);
         JSONObject jsonObject = JSON.parseObject(jsonString);
 
-        String file ="src/main/resources/data/bak.txt";
-        FileUtils.fileChaseFW(file,jsonString,true);
+        if(writeFlag) {
+            String file = "src/main/resources/data/bak.txt";
+            FileUtils.fileChaseFW(file, jsonString, true);
+        }
 
         response.close();
         httpClient.close();
@@ -76,10 +78,10 @@ public class SpiderData {
         return jsonObject;
     }
 
-    public List<StockInfo> getData() {
+    public List<StockInfo> getData(boolean writeFlag) {
         List<StockInfo> stockList = new ArrayList<>();
         try {
-            JSONObject jsonObject = getDataInfo();
+            JSONObject jsonObject = getDataInfo(writeFlag);
             String today = DateUtil.getToday();
 
             List list = (List) jsonObject.get("result");

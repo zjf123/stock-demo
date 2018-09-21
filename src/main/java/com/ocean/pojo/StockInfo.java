@@ -418,4 +418,23 @@ public class StockInfo {
     public void setIsdelete(String isdelete) {
         this.isdelete = isdelete == null ? null : isdelete.trim();
     }
+
+    @Override
+    public String toString() {
+        return "StockInfo{" +
+                "pkid=" + pkid +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", newprice='" + newprice + '\'' +
+                ", increase='" + increase + '\'' +
+                ", datastr='" + datastr + '\'' +
+                ", keystr='" + keystr + '\'' +
+                ", realindexname='" + realindexname + '\'' +
+                ", status='" + status + '\'' +
+                ", times=" + times +
+                ", createtime=" + createtime +
+                ", modifytime=" + modifytime +
+                ", isdelete='" + isdelete + '\'' +
+                '}';
+    }
 }

@@ -1,4 +1,4 @@
-package com.ocean.springbootmybatisdemo;
+package com.ocean.springboot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

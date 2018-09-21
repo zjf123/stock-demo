@@ -273,44 +273,44 @@
 
     <sql id="find_Condition">
         <if test="pkid != null and pkid !=''">
-            AND pkid = #{pkid,jdbcType=INTEGER},
+            AND pkid = #{pkid,jdbcType=INTEGER}
         </if>
         <if test="code != null and code !=''">
-            AND code like #{code,jdbcType=VARCHAR}
+            AND code = #{code,jdbcType=VARCHAR}
         </if>
         <if test="datastr != null and datastr !=''">
-            AND datastr like #{datastr,jdbcType=VARCHAR}
+            AND datastr = #{datastr,jdbcType=VARCHAR}
         </if>
 
         <if test="name != null">
-            AND name = #{name,jdbcType=VARCHAR},
+            AND name = #{name,jdbcType=VARCHAR}
         </if>
         <if test="newprice != null">
-            AND newPrice = #{newprice,jdbcType=VARCHAR},
+            AND newPrice = #{newprice,jdbcType=VARCHAR}
         </if>
         <if test="increase != null">
-            AND increase = #{increase,jdbcType=VARCHAR},
+            AND increase = #{increase,jdbcType=VARCHAR}
         </if>
         <if test="keystr != null">
-            AND keystr = #{keystr,jdbcType=VARCHAR},
+            AND keystr = #{keystr,jdbcType=VARCHAR}
         </if>
         <if test="realindexname != null">
-            AND realIndexName = #{realindexname,jdbcType=VARCHAR},
+            AND realIndexName = #{realindexname,jdbcType=VARCHAR}
         </if>
         <if test="status != null">
-            AND status = #{status,jdbcType=VARCHAR},
+            AND status = #{status,jdbcType=VARCHAR}
         </if>
         <if test="times != null">
-            AND times = #{times,jdbcType=INTEGER},
+            AND times = #{times,jdbcType=INTEGER}
         </if>
         <if test="createtime != null">
-            AND createTime = #{createtime,jdbcType=TIMESTAMP},
+            AND createTime = #{createtime,jdbcType=TIMESTAMP}
         </if>
         <if test="modifytime != null">
-            AND modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+            AND modifyTime = #{modifytime,jdbcType=TIMESTAMP}
         </if>
         <if test="isdelete != null">
-            AND isDelete = #{isdelete,jdbcType=VARCHAR},
+            AND isDelete = #{isdelete,jdbcType=VARCHAR}
         </if>
     </sql>
 </mapper>

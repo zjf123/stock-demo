@@ -1,4 +1,4 @@
-package com.ocean.springbootmybatisdemo;
+package com.ocean.springboot;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -13,10 +13,10 @@ import org.springframework.http.HttpStatus;
 @SpringBootApplication
 @MapperScan("com.ocean.dao")
 @ComponentScan(basePackages = {"com.ocean.*"})
-public class SpringbootMybatisDemoApplication {
+public class SpringbootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootMybatisDemoApplication.class, args);
+        SpringApplication.run(SpringbootApplication.class, args);
 
     }
 

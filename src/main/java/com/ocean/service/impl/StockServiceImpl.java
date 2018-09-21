@@ -41,7 +41,7 @@ public class StockServiceImpl implements IStockService {
 
     @Override
     public List<StockInfo> doSomething() {
-        List<StockInfo> stockList = spiderData.getData();
+        List<StockInfo> stockList = spiderData.getData(true);
         for (StockInfo stock : stockList) {
             StockInfo tmp = new StockInfo();
             tmp.setCode(stock.getCode());
