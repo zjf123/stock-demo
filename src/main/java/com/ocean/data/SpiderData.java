@@ -32,7 +32,7 @@ public class SpiderData {
 //        List<StockInfo> list = data.getData(false);
 //        System.out.println(list);
 
-        data.getDataInfoFromJqkaCenter(true,6);
+        data.getDataInfoFromJqkaCenter(true, 6);
     }
 
     private JSONObject getDataInfo(boolean writeFlag) throws Exception {
@@ -83,12 +83,12 @@ public class SpiderData {
     }
 
 
-    private JSONObject getDataInfoFromJqkaCenter(boolean writeFlag,int day) throws Exception {
+    private JSONObject getDataInfoFromJqkaCenter(boolean writeFlag, int day) throws Exception {
         //创建一个httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         //创建一个GET对象
-        HttpGet get = new HttpGet("http://search.10jqka.com.cn/stockpick/search?ts=1&f=1&qs=stockhome_topbar_click&w=%E8%BF%9E%E7%BB%AD"+day+"%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
+        HttpGet get = new HttpGet("http://search.10jqka.com.cn/stockpick/search?ts=1&f=1&qs=stockhome_topbar_click&w=%E8%BF%9E%E7%BB%AD" + day + "%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
 //        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/load-data?typed=0&preParams=&ts=1&f=1&qs=result_original&selfsectsn=&querytype=stock&searchfilter=&tid=stockpick&w=%E8%BF%9E%E7%BB%AD5%E6%A4%A9%E9%98%B3%E7%BA%BF&queryarea=");
 
         //分页查询接口
@@ -121,7 +121,7 @@ public class SpiderData {
 
         if (writeFlag) {
             JSONArray result = (JSONArray) jsonObject.get("result");
-            String file = "src/main/resources/data/bak"+day+".txt";
+            String file = "src/main/resources/data/bak" + day + ".txt";
             FileUtils.fileChaseFW(file, JSON.toJSONString(result), true);
         }
 
@@ -129,19 +129,19 @@ public class SpiderData {
         httpClient.close();
         String token = (String) jsonObject.get("token");
 
-        if(null!=token&&!"".equals(token)){
-            return getDataFromJqkaCache(token,writeFlag,day);
+        if (null != token && !"".equals(token)) {
+            return getDataFromJqkaCache(token, writeFlag, day);
         }
 
         return jsonObject;
     }
 
-    private JSONObject getDataFromJqkaCache(String token, boolean writeFlag,int day) throws Exception {
+    private JSONObject getDataFromJqkaCache(String token, boolean writeFlag, int day) throws Exception {
         //创建一个httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         //创建一个GET对象
-        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/cache?token="+token+"&p=1&perpage=300&showType=[%22%22,%22%22,%22onTable%22,%22onTable%22,%22onTable%22,%22onTable%22]");
+        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/cache?token=" + token + "&p=1&perpage=300&showType=[%22%22,%22%22,%22onTable%22,%22onTable%22,%22onTable%22,%22onTable%22]");
         get.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
         get.setHeader("Accept-Encoding", "gzip, deflate, br");
         get.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
@@ -150,7 +150,7 @@ public class SpiderData {
         get.setHeader("Host", "www.iwencai.com");
         get.setHeader("hexin-v", "AiEKzgI23li1nnKsbhpDW4fCMOY4zpGnv0g5_oPyHFWHpksQyx6lkE-SSY0Q");
         get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36");
-        get.setHeader("Referer", "http://search.10jqka.com.cn/html/wencaimobileresult/result.html?q=%E8%BF%9E%E7%BB%AD"+day+"%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
+        get.setHeader("Referer", "http://search.10jqka.com.cn/html/wencaimobileresult/result.html?q=%E8%BF%9E%E7%BB%AD" + day + "%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
 
         //执行请求
         CloseableHttpResponse response = httpClient.execute(get);
@@ -168,7 +168,7 @@ public class SpiderData {
 
         if (writeFlag) {
             JSONArray result = (JSONArray) jsonObject.get("result");
-            String file = "src/main/resources/data/bak"+day+".txt";
+            String file = "src/main/resources/data/bak" + day + ".txt";
             FileUtils.fileChaseFW(file, JSON.toJSONString(result), true);
         }
 
@@ -181,7 +181,14 @@ public class SpiderData {
     public List<StockInfo> getData(boolean writeFlag) {
         List<StockInfo> stockList = new ArrayList<>();
         try {
-            JSONObject jsonObject = getDataInfo(writeFlag);
+            JSONObject jsonObject = getDataInfoFromJqkaCenter(writeFlag, 6);
+
+            if (writeFlag) {
+                JSONArray result = (JSONArray) jsonObject.get("result");
+                String file = "src/main/resources/data/bak.txt";
+                FileUtils.fileChaseFW(file, JSON.toJSONString(result), true);
+            }
+
             String today = DateUtil.getToday();
 
             List list = (List) jsonObject.get("result");
@@ -199,6 +206,7 @@ public class SpiderData {
                 stock.setStatus("T");
                 stock.setIsdelete("N");
 
+
                 stock.setCreatetime(new Date());
                 stock.setModifytime(new Date());
 
@@ -210,10 +218,11 @@ public class SpiderData {
 
         return stockList;
     }
-    public List<StockDaysInfo> getStockDaysInfo(boolean writeFlag,int day) {
+
+    public List<StockDaysInfo> getStockDaysInfo(boolean writeFlag, int day) {
         List<StockDaysInfo> stockList = new ArrayList<>();
         try {
-            JSONObject jsonObject = getDataInfoFromJqkaCenter(writeFlag,day);
+            JSONObject jsonObject = getDataInfoFromJqkaCenter(writeFlag, day);
             String today = DateUtil.getToday();
 
             List list = (List) jsonObject.get("result");
