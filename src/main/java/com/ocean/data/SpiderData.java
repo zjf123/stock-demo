@@ -199,6 +199,7 @@ public class SpiderData {
                 stock.setStatus("T");
                 stock.setIsdelete("N");
 
+
                 stock.setCreatetime(new Date());
                 stock.setModifytime(new Date());
 
