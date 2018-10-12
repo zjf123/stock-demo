@@ -137,15 +137,15 @@ public class Native2AsciiUtils {
         return (char) code;
     }
 
-    public static void main(String args[]) {
-        System.out.println(Native2AsciiUtils.native2Ascii("打开"));
-
-        System.out.println(Native2AsciiUtils.native2Ascii("退出"));
-
-        System.out.println(Native2AsciiUtils.native2Ascii("隐藏"));
-        System.out.println(Native2AsciiUtils.ascii2Native("\\u9000\\u51fa"));
-        System.out.println(Native2AsciiUtils.ascii2Native("\\u6253\\u5f00"));
-        System.out.println(Native2AsciiUtils.ascii2Native("\\u9690\\u85cf"));
-    }
+//    public static void main(String args[]) {
+//        System.out.println(Native2AsciiUtils.native2Ascii("打开"));
+//
+//        System.out.println(Native2AsciiUtils.native2Ascii("退出"));
+//
+//        System.out.println(Native2AsciiUtils.native2Ascii("隐藏"));
+//        System.out.println(Native2AsciiUtils.ascii2Native("\\u9000\\u51fa"));
+//        System.out.println(Native2AsciiUtils.ascii2Native("\\u6253\\u5f00"));
+//        System.out.println(Native2AsciiUtils.ascii2Native("\\u9690\\u85cf"));
+//    }
 }
 

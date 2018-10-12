@@ -27,13 +27,13 @@ import java.util.List;
  */
 @Component
 public class SpiderData {
-    public static void main(String[] args) throws Exception {
-        SpiderData data = new SpiderData();
-//        List<StockInfo> list = data.getData(false);
-//        System.out.println(list);
-
-        data.getDataInfoFromJqkaCenter(true, 6);
-    }
+//    public static void main(String[] args) throws Exception {
+//        SpiderData data = new SpiderData();
+////        List<StockInfo> list = data.getData(false);
+////        System.out.println(list);
+//
+//        data.getDataInfoFromJqkaCenter(true, 6);
+//    }
 
     private JSONObject getDataInfo(boolean writeFlag) throws Exception {
         //创建一个httpclient对象
@@ -141,7 +141,7 @@ public class SpiderData {
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         //创建一个GET对象
-        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/cache?token=" + token + "&p=1&perpage=300&showType=[%22%22,%22%22,%22onTable%22,%22onTable%22,%22onTable%22,%22onTable%22]");
+        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/cache?token=" + token + "&p=1&perpage=600&showType=[%22%22,%22%22,%22onTable%22,%22onTable%22,%22onTable%22,%22onTable%22]");
         get.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
         get.setHeader("Accept-Encoding", "gzip, deflate, br");
         get.setHeader("Accept-Language", "zh-CN,zh;q=0.9");

@@ -34,8 +34,8 @@ public class FileUtils {
         }
     }
 
-    public static void main(String[] args) {
-        String file ="src/main/resources/data/bak.txt";
-        FileUtils.fileChaseFW(file,"123",true);
-    }
+//    public static void main(String[] args) {
+//        String file ="src/main/resources/data/bak.txt";
+//        FileUtils.fileChaseFW(file,"123",true);
+//    }
 }
