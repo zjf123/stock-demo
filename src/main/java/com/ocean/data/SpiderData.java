@@ -16,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Component;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,20 +28,72 @@ import java.util.List;
  */
 @Component
 public class SpiderData {
-//    public static void main(String[] args) throws Exception {
-//        SpiderData data = new SpiderData();
-////        List<StockInfo> list = data.getData(false);
-////        System.out.println(list);
-//
-//        data.getDataInfoFromJqkaCenter(true, 6);
-//    }
+    public static void main(String[] args) throws Exception {
+        SpiderData data = new SpiderData();
+        JSONObject list = data.getZhishuDataInfo(false);
+        System.out.println(list.toString());
 
+//        data.getDataInfoFromJqkaCenter(true, 6);
+    }
+
+    private JSONObject getZhishuDataInfo(boolean writeFlag) throws Exception {
+        //创建一个httpclient对象
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
+        //创建一个GET对象
+        //              %E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97
+//        System.out.println(URLEncoder.encode("均线多头排列"));
+        HttpGet get = new HttpGet("http://search.10jqka.com.cn/robot-index/get-robot-data?version=1.6&source=ths_mobile_iwencai&user_id=0&user_name=0&question=%E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97&direct_mode=&secondary_intent=zhishu&add_info=%7B%22urp%22%3A%7B%22scene%22%3A3%2C%22company%22%3A1%2C%22business%22%3A1%7D%7D&_=1539829339302");
+//   get.setHeader("Accept", "application/json");
+        get.setHeader("Accept-Encoding", "gzip, deflate");
+        get.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+        get.setHeader("Cookie", "cid=434045188ab9a0e375a867c2b124a3a61537085895; ComputerID=434045188ab9a0e375a867c2b124a3a61537085895; other_uid=ths_mobile_iwencai_d54c15dc41b11b5a10eeccada94f7f19; PHPSESSID=198ce57c941dcd1090ec13287db1ca9f; guideState=1; td_cookie=18446744072794094946; iwencaisearchquery=%E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97; v=AnjLUeUnVxwJHruYjIJZSlPLSS0J4dxqPkWw77LpxLNmzRIbWvGs-45VgH0B");
+        get.setHeader("hexin-v", "AnjLUeUnVxwJHruYjIJZSlPLSS0J4dxqPkWw77LpxLNmzRIbWvGs-45VgH0B");
+        get.setHeader("Host", "search.10jqka.com.cn");
+        get.setHeader("Proxy-Connection", "keep-alive");
+        get.setHeader("Referer", "http://search.10jqka.com.cn/html/wencaimobileresult/result.html?q=%E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97&queryType=zhishu");
+        get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36");
+        get.setHeader("X-Requested-With", "XMLHttpRequest");
+        //执行请求
+        CloseableHttpResponse response = httpClient.execute(get);
+
+        //取响应的结果
+        int statusCode = response.getStatusLine().getStatusCode();
+        System.out.println(statusCode);
+
+        HttpEntity entity = response.getEntity();
+        String string = EntityUtils.toString(entity, "utf-8");
+        String json = Native2AsciiUtils.ascii2Native(string).replace("\\万", "万").replace("\\亿", "亿");
+//        System.out.println(jsonString);
+        JSONObject jsonObject = JSON.parseObject(json);
+
+        JSONObject obj = ((JSONObject)((JSONArray)((JSONObject)((JSONArray)((JSONObject)jsonObject.get("data")).getJSONArray("answer")).get(0)).get("txt")).get(0));
+        String msg = (String) obj.get("content");
+        JSONObject obj2 = JSONObject.parseObject(msg);
+        JSONArray msg2 = (JSONArray) obj2.get("data");
+
+
+        System.out.println(msg2);
+
+        if (writeFlag) {
+            String file = "src/main/resources/data/bak.txt";
+            FileUtils.fileChaseFW(file, json, true);
+        }
+
+        response.close();
+        httpClient.close();
+
+        return jsonObject;
+    }
     private JSONObject getDataInfo(boolean writeFlag) throws Exception {
         //创建一个httpclient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         //创建一个GET对象
-        HttpGet get = new HttpGet("http://search.10jqka.com.cn/stockpick/search?ts=1&f=1&qs=stockhome_topbar_click&w=%E8%BF%9E%E7%BB%AD6%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
+        //              %E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97
+        System.out.println(URLEncoder.encode("均线多头排列"));
+        HttpGet get = new HttpGet("http://www.iwencai.com/stockpick/search?typed=1&ts=1&f=1&qs=xdialog_iwencai&tid=stockpick&w=%E5%9D%87%E7%BA%BF%E5%A4%9A%E5%A4%B4%E6%8E%92%E5%88%97");
+//        HttpGet get = new HttpGet("http://search.10jqka.com.cn/stockpick/search?ts=1&f=1&qs=stockhome_topbar_click&w=%E8%BF%9E%E7%BB%AD6%E5%A4%A9%E7%9A%84%E9%98%B3%E7%BA%BF");
 //        HttpGet get = new HttpGet("https://www.iwencai.com/stockpick/load-data?typed=0&preParams=&ts=1&f=1&qs=result_original&selfsectsn=&querytype=stock&searchfilter=&tid=stockpick&w=%E8%BF%9E%E7%BB%AD5%E6%A4%A9%E9%98%B3%E7%BA%BF&queryarea=");
 
         //分页查询接口

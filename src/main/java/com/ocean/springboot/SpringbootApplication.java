@@ -9,8 +9,10 @@ import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 @MapperScan("com.ocean.dao")
 @ComponentScan(basePackages = {"com.ocean.*"})
 public class SpringbootApplication {
